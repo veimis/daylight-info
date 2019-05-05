@@ -5,6 +5,29 @@ var dataLoader = (function(){
 	const parseDate = d3.timeParse("%d.%m.%Y");
 	const re = /\d{1,2}\.\d{1,2}\.\d{4}( - \d{1,2}:\d{1,2}){2}/g;
 
+	return {
+		// Loads sample data and returns array of data elements
+		load: function() {
+
+			const http = new XMLHttpRequest();
+			http.open('GET', 'file:///C:/Users/ilkvei/projects/daylight-info/sample-data.htm', false);
+			http.send();
+			const buffer = http.responseText;
+
+			return parseData(buffer, []);
+		}
+	}
+
+	function parseData(data, results) {
+		let match = re.exec(data);
+		if(!match){
+			return results;
+		}
+
+		results.push(parseItem(match[0]));
+		return parseData(data, results);
+	};
+
 	// Data element
 	function newDataElement(dataRow) {
 		return {
@@ -18,29 +41,5 @@ var dataLoader = (function(){
 		let parts = line.split('-');
 		return newDataElement(parts);
 	};
-
-	function parseData(data, results) {
-		let match = re.exec(data);
-		if(!match){
-			return results;
-		}
-
-		results.push(parseItem(match[0]));
-		return parseData(data, results);
-	};
-
-	// dataLoader object
-	return {
-		// Loads sample data and returns array of data elements
-		load: function() {
-
-			const http = new XMLHttpRequest();
-			http.open('GET', 'file:///C:/Users/ilkvei/projects/daylight-info/sample-data.htm', false);
-			http.send();
-			const buffer = http.responseText;
-
-			return parseData(buffer, []);
-		}
-	}
 }());
 

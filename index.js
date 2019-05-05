@@ -2,5 +2,6 @@
 
 const data = dataLoader.load();
 
-graph.render(data);
+const selection = d3.select('svg');
+graph.render(selection, data);
 
