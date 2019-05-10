@@ -15,7 +15,7 @@ var graph = (function() {
 			const scaleX = getScaleX(data);
 			const scaleY = getScaleY();
 
-			addPath(chart, scaleX, scaleY);
+			addPath(chart, data, scaleX, scaleY);
 			addXaxis(chart, scaleX);
 			addYaxis(chart, scaleY);
 		}
@@ -35,7 +35,7 @@ var graph = (function() {
 			.range([svgHeight - margins.bottom, margins.top]);
 	}
 
-	function addPath(chart, scaleX, scaleY) {
+	function addPath(chart, data, scaleX, scaleY) {
 		const area = d3.area()
 			.curve(d3.curveStep)
 			// here d should be a data element defined in dataLoader.js
