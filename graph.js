@@ -7,9 +7,9 @@ var graph = (function() {
 	const margins = {top: 30, right: 30, bottom: 20, left: 50};
 
 	return {
-		render: function(selection, data) {
+		render: function(chart, data) {
 				
-			const chart = selection.attr('width', svgWidth)
+			chart = chart.attr('width', svgWidth)
 					.attr('height', svgHeight);
 		
 			const scaleX = getScaleX(data);
