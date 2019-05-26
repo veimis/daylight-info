@@ -1,4 +1,7 @@
 var dataTransformer = (function() {
+	const start = new Date('2019-03-30');
+	const end = new Date('2019-10-26');
+
 	return {
 		transform: function(data) {
 			return {
