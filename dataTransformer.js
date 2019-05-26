@@ -1,9 +1,10 @@
 var dataTransformer = (function() {
+	// Daylight saving time start and end times
 	const start = new Date('2019-03-30');
 	const end = new Date('2019-10-26');
 
 	return {
-		transform: function(data) {
+		transform: function(data, dates) {
 			return {
 				winter: data.map(normalize),
 				summer: data.map(summerize)
@@ -11,10 +12,9 @@ var dataTransformer = (function() {
 		}
 	}
 
-	function summerize(item) {
-		if(!isDaylightSavingDate(item)) {
+	function summerize(item, i) {
+		if(!isDaylightSavingDate(i)) {
 			return {
-				date: item.date,
 				rise: addOneHour(item.rise),
 				set: addOneHour(item.set)
 			};
@@ -23,10 +23,9 @@ var dataTransformer = (function() {
 		return item;
 	}
 
-	function normalize(item) {
-		if(isDaylightSavingDate(item)) {
+	function normalize(item, i) {
+		if(isDaylightSavingDate(i)) {
 			return {
-				date: item.date,
 				rise: removeOneHour(item.rise),
 				set: removeOneHour(item.set)
 			};
@@ -51,8 +50,8 @@ var dataTransformer = (function() {
 		return toString(hours, minutes);
 	}
 
-	function isDaylightSavingDate(item) {
-		return item.date > start && item.date < end;
+	function isDaylightSavingDate(i) {
+		return dates[i] > start && dates[i] < end;
 	}
 
 	function toString(hours, minutes) {
