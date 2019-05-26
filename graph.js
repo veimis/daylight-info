@@ -5,8 +5,10 @@ var graph = (function() {
 	const svgWidth = 800;
 	const svgHeight = 400
 	const margins = {top: 30, right: 30, bottom: 20, left: 50};
+	const colors = ["steelblue", "red"];
 
 	return {
+		// Assumes data is an array of 2 items
 		render: function(chart, data) {
 				
 			chart = chart.attr('width', svgWidth)
@@ -24,7 +26,7 @@ var graph = (function() {
 	function getScaleX(data) {
 		// Take the dates of each data item (domain) and translate to scaled values (range)
 		return d3.scaleTime()
-			.domain(d3.extent(data, item => item.date))
+			.domain(d3.extent(data[0], item => item.date))
 			.range([margins.left, svgWidth - margins.right])
 	}
 
@@ -43,10 +45,12 @@ var graph = (function() {
 			.y0(d => scaleY(parseTime(d.rise)))
 			.y1(d => scaleY(parseTime(d.set)));
 
-		chart.append("path")
-			.datum(data)
-			.attr("fill", "steelblue")
-			.attr("d", area);
+		chart.selectAll("path")
+			.data(data)
+			.enter()
+				.append("path")
+				.attr("fill", (d, i, nodes) => colors[i] )
+				.attr("d", area);
 	}
 
 	function parseTime(time) {
