@@ -5,9 +5,9 @@ const dates = rawData.dates;
 const data = dataTransformer.transform(rawData.values, dates);
 
 const wakeUpLine = dates.map(d => ({
-	rise: "07:00",
-	set: "07:01"
-	}));
+	rise: 25200,
+	set: 25260 
+}));
 
 const summer = d3.select('#summer');
 graph.render(summer, [data.summer, wakeUpLine], dates);

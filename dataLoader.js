@@ -46,9 +46,17 @@ var dataLoader = (function(){
 	// Data element
 	function newDataElement(dataRow) {
 		return {
-			rise:	dataRow[1].trim(),
-			set: dataRow[2].trim()
+			rise:	toSeconds(dataRow[1].trim()),
+			set: toSeconds(dataRow[2].trim())
 		}
+	}
+
+	function toSeconds(time) {
+		const splitTime = time.split(":"); // "hh:mm" -> ["hh", "mm"]
+		const hours = parseInt(splitTime[0]);
+		const minutes = parseInt(splitTime[1]);
+
+		return hours * 60 * 60 + minutes * 60;
 	}
 
 }());

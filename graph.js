@@ -55,9 +55,7 @@ var graph = (function() {
 	}
 
 	function parseTime(time) {
-		const hours = parseInt(time.split(':')[0]);
-		const minutes = parseInt(time.split(':')[1]);
-		return hours * 60 + minutes;
+		return time / 60; // seconds to minutes
 	}
 
 	function addXaxis(chart, scaleXdates) {

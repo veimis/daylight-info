@@ -2,6 +2,7 @@ var dataTransformer = (function() {
 	// Daylight saving time start and end times
 	const start = new Date('2019-03-30');
 	const end = new Date('2019-10-26');
+	const hourInSeconds = 3600;
 
 	return {
 		transform: function(data, dates) {
@@ -35,26 +36,15 @@ var dataTransformer = (function() {
 	}
 
 	function removeOneHour(time) {
-		const splitTime = time.split(':');
-		const hours = parseInt(splitTime[0]) - 1;
-		const minutes = parseInt(splitTime[1]);
-		
-		return toString(hours, minutes);
+		return time - hourInSeconds;
 	}
 
 	function addOneHour(time) {
-		const splitTime = time.split(':');
-		const hours = parseInt(splitTime[0]) + 1;
-		const minutes = parseInt(splitTime[1]);
-
-		return toString(hours, minutes);
+		return time + hourInSeconds;
 	}
 
 	function isDaylightSavingDate(i) {
 		return dates[i] > start && dates[i] < end;
 	}
 
-	function toString(hours, minutes) {
-		return hours.toString().padStart(2, '0') + ":" + minutes;
-	}
 }());
