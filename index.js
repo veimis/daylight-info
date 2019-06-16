@@ -3,15 +3,19 @@
 const rawData = dataLoader.load();
 const dates = rawData.dates;
 const data = dataTransformer.transform(rawData.values, dates);
-
-const wakeUpLine = dates.map(d => ({
-	rise: 25200,
-	set: 25260 
-}));
+const wakeUpTime = 25200; // 07:00
 
 const summer = d3.select('#summer');
-graph.render(summer, [data.summer, wakeUpLine], dates);
+const summerWakeUp = generateWakeUpData(data.summer, wakeUpTime);
+graph.render(summer, [data.summer, summerWakeUp], dates);
 
 const winter = d3.select('#winter');
-graph.render(winter, [data.winter, wakeUpLine], dates);
+const winterWakeUp = generateWakeUpData(data.winter, wakeUpTime);
+graph.render(winter, [data.winter, winterWakeUp], dates);
 
+function generateWakeUpData(data, wakeUpTime) {
+	return data.map(d => ({
+		rise: d.rise < wakeUpTime ? d.rise : wakeUpTime,
+		set: wakeUpTime
+	}));
+}
