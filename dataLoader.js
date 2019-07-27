@@ -2,19 +2,27 @@
 
 // Create dataLoader object to global scope
 var dataLoader = (function(){
-	const re = /\d{1,2}\.\d{1,2}\.\d{4}( - \d{1,2}:\d{1,2}){2}/g;
+	const re = /\d{1,2}\.\d{1,2}\.\d{4}( - \d{1,2}:\d{1,2}){2}/g; // 23.4.2019 - 5:40 - 21:09
 	const d3DateParser = d3.timeParse("%d.%m.%Y");
 
 	return {
 		// Loads sample data and returns array of data elements
-		load: function() {
+		load: function(done) {
 
-			const http = new XMLHttpRequest();
-			http.open('GET', 'file:///C:/Users/ilkvei/projects/daylight-info/sample-data.htm', false);
-			http.send();
-			const buffer = http.responseText;
+			const xhr = new XMLHttpRequest();
+			xhr.open('GET', 'sample-data.htm');
+			//xhr.open('GET', '/data/taivas/aurinkokalenteriascii.php?mode=1&zc=37&paikka=Tampere&latdeg=61.5&long=23.75&dy=20&mn=01&yr=2019&kk=12');
+			xhr.send();
+			
+			xhr.onload = () => {
+				const data = parseData(xhr.responseText, {dates: [], values: []})
+				done(data);
+			};
 
-			return parseData(buffer, {dates: [], values: []});
+			xhr.onerror = () => {
+				console.log(xhr); 
+				console.log("Failed to fetch graph data.");
+			};
 		}
 	}
 
