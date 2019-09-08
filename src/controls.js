@@ -1,6 +1,3 @@
-// Depends on ??
-
-// Tie form submit
 var controls = (function() {
 	return {
 
@@ -16,7 +13,7 @@ var controls = (function() {
 				const places = parseData(xhr.response);
 				const results = createResultList(places);
 
-				document.getElementById('places').appendChild(results);
+				updateResultsList(results);
 			}
 
 			xhr.onerror = () => {
@@ -60,6 +57,16 @@ var controls = (function() {
 		});
 
 		return list;
+	}
+
+	function updateResultsList(results) {
+		const listElement = document.getElementById('places');
+
+		while(listElement.firstChild) {
+			listElement.removeChild(listElement.firstChild);
+		}
+
+		listElement.appendChild(results);
 	}
 
 }());
