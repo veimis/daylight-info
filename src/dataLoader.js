@@ -7,11 +7,10 @@ var dataLoader = (function(){
 
 	return {
 		// Loads sample data and returns array of data elements
-		load: function(done) {
+		load: function(dataUrl, done) {
 
 			const xhr = new XMLHttpRequest();
-			xhr.open('GET', 'sample-data.htm');
-			//xhr.open('GET', '/data/taivas/aurinkokalenteriascii.php?mode=1&zc=37&paikka=Tampere&latdeg=61.5&long=23.75&dy=20&mn=01&yr=2019&kk=12');
+			xhr.open('GET', dataUrl);
 			xhr.send();
 			
 			xhr.onload = () => {
