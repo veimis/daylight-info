@@ -6,6 +6,7 @@ var controls = (function() {
 
 			const xhr = new XMLHttpRequest();
 			xhr.open('GET', 'locations.html');
+			//xhr.open('GET', getQuery());
 			xhr.responseType = 'document';
 			xhr.send();
 
@@ -21,6 +22,16 @@ var controls = (function() {
 				console.log('Failed to fetch places');
 			}
 		}
+	}
+
+	function getQuery() {
+		const place = document.getElementById('place').value;
+		const date = new Date();
+		const day = date.getDate();
+		const month = date.getMonth() + 1; // getMonth returns 0-11, we need 1-12
+		const year = date.getFullYear();
+
+		return `/data/taivas/?paikka=${place}&dy=${day}&mn=${month}&yr=${year}`;
 	}
 
 	function parseData(data) {
