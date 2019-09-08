@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <head>
- <meta charset="UTF-8">
+	<meta charset="UTF-8">
 </head>
 <body>
-	<h1>Valoisa-aika</h1>
-	<h2>Kesäaika</h2>
-	<svg id="summer" style="border: 1px solid black"></svg>
-	<h2>Talviaika</h2>
-	<svg id="winter" style="border: 1px solid black"></svg>
-	<script src="https://d3js.org/d3.v5.min.js"></script>
-	<script src="dataLoader.js"></script>
-	<script src="dataTransformer.js"></script>
-	<script src="graph.js"></script>
-	<script src="index.js"></script>
+	<div id="controls">
+		<form action="http://veimis.fi" method="GET" onsubmit="controls.fetchPlaces()">
+			<label for="place">Anna paikan nimi</label>
+			<input type="text" id="place" size="30" value="">
+			<input type="submit" value="Hae">
+		</form>
+		<div id="places"></div>
+	</div>
+	<div id="data">
+		<h1>Valoisa-aika</h1>
+		<h2>Kesäaika</h2>
+		<svg id="summer" style="border: 1px solid black"></svg>
+		<h2>Talviaika</h2>
+		<svg id="winter" style="border: 1px solid black"></svg>
+		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="dataLoader.js"></script>
+		<script src="dataTransformer.js"></script>
+		<script src="graph.js"></script>
+		<script src="controls.js"></script>
+		<script src="index.js"></script>
+	</div>
 </body>
