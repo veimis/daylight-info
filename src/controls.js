@@ -1,4 +1,7 @@
 var controls = (function() {
+	// http://moisio.fi/aurinkokalenteri.php?/mode=1&amp;zc=37&amp;paikka=Tampere&amp;latdeg=61.5&amp;long=23.75&amp;dy=4&amp;mn=8&amp;yr=2019&amp;kk=12
+	const re = /^.*\/aurinkokalenteri\.php\?(.*)$/;
+
 	return {
 
 		fetchPlaces: function() {
@@ -51,8 +54,10 @@ var controls = (function() {
 		tableRows.forEach(row => {
 			const rowItems = [...row.children];
 			const name = rowItems[2].childNodes[0].nodeValue.trim();
-			const link = [...rowItems.pop().children].pop().href;
-			places.push({name, link});
+			const rawUrl = [...rowItems.pop().children].pop().href;
+			const url = `/data/taivas/aurinkokalenteri.php?${re.exec(rawUrl)[1]}`;
+
+			places.push({name, url});
 		});
 
 		return places;
@@ -61,9 +66,13 @@ var controls = (function() {
 	function createResultList(places) {
 		let list = document.createElement('ul');
 
+		// <li><a href="place.url">place.name</a></li>
 		places.forEach(place => {
 			let listItem = document.createElement('li');
-			listItem.appendChild(document.createTextNode(place.name));
+			let link = document.createElement('a');
+			link.href = place.url;
+			link.appendChild(document.createTextNode(place.name));
+			listItem.appendChild(link);
 			list.appendChild(listItem);
 		});
 
