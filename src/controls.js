@@ -1,3 +1,5 @@
+// Depends on index.js: refresh()
+
 var controls = (function() {
 	// http://moisio.fi/aurinkokalenteri.php?/mode=1&amp;zc=37&amp;paikka=Tampere&amp;latdeg=61.5&amp;long=23.75&amp;dy=4&amp;mn=8&amp;yr=2019&amp;kk=12
 	const re = /^.*\/aurinkokalenteri\.php\?(.*)$/;
@@ -30,15 +32,15 @@ var controls = (function() {
 	function getQuery() {
 		const place = document.getElementById('place').value;
 		const date = new Date();
-		const day = date.getDate();
-		const month = date.getMonth() + 1; // getMonth returns 0-11, we need 1-12
+		const day = 1;
+		const month = 1;
 		const year = date.getFullYear();
 
 		return `/data/taivas/?paikka=${place}&dy=${day}&mn=${month}&yr=${year}`;
 	}
 
 	function parseData(data) {
-		// HTMLCollection is converted to an array with [...HTMLCollection]
+		// Type HTMLCollection is converted to an array with [...HTMLCollection]
 
 		const tables = data.body.getElementsByTagName('table');
 
@@ -55,7 +57,7 @@ var controls = (function() {
 			const rowItems = [...row.children];
 			const name = rowItems[2].childNodes[0].nodeValue.trim();
 			const rawUrl = [...rowItems.pop().children].pop().href;
-			const url = `/data/taivas/aurinkokalenteri.php?${re.exec(rawUrl)[1]}`;
+			const url = `/data/taivas/aurinkokalenteriascii.php?${re.exec(rawUrl)[1]}`;
 
 			places.push({name, url});
 		});
@@ -71,6 +73,8 @@ var controls = (function() {
 			let listItem = document.createElement('li');
 			let link = document.createElement('a');
 			link.href = place.url;
+			// refresh is defined in index.js as a global method
+			link.onclick = () => {refresh(place.url); return false;}
 			link.appendChild(document.createTextNode(place.name));
 			listItem.appendChild(link);
 			list.appendChild(listItem);

@@ -32,7 +32,7 @@ var dataLoader = (function(){
 		}
 
 		const parts = parseItem(match[0]);
-	
+
 		const date = parseDate(parts[0]);
 		results.dates.push(date);
 
