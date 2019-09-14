@@ -1,4 +1,4 @@
-// Depends on dataLoader.js, graph.js
+// Depends on dataLoader.js, dataTransformer.js, graph.js
 
 function refresh(dataUrl) {
 	dataLoader.load(

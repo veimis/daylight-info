@@ -1,7 +1,9 @@
 var dataTransformer = (function() {
 	// Daylight saving time start and end times
-	const start = new Date('2019-03-30');
-	const end = new Date('2019-10-26');
+	const date = new Date();
+	const currentYear = date.getFullYear();
+	const start = new Date(`${currentYear}-03-30`);
+	const end = new Date(`${currentYear}-10-26`);
 	const hourInSeconds = 3600;
 
 	return {
