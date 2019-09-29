@@ -1,21 +1,24 @@
-// Depends on dataLoader.js, dataTransformer.js, graph.js
+import * as d3 from 'https://unpkg.com/d3-selection?module'
+import load from './dataLoader.mjs'
+import transform from './dataTransformer.mjs'
+import render from './graph.mjs'
 
-function refresh(dataUrl) {
-	dataLoader.load(
+export default function(dataUrl) {
+	load(
 		dataUrl,
 		rawData => 
 		{
 			const dates = rawData.dates;
-			const data = dataTransformer.transform(rawData.values, dates);
+			const data = transform(rawData.values, dates);
 			const wakeUpTime = 25200; // 07:00
 
 			const summer = d3.select('#summer');
 			const summerWakeUp = generateWakeUpData(data.summer, wakeUpTime);
-			graph.render(summer, [data.summer, summerWakeUp], dates);
+			render(summer, [data.summer, summerWakeUp], dates);
 
 			const winter = d3.select('#winter');
 			const winterWakeUp = generateWakeUpData(data.winter, wakeUpTime);
-			graph.render(winter, [data.winter, winterWakeUp], dates);
+			render(winter, [data.winter, winterWakeUp], dates);
 		});
 }
 
