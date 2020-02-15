@@ -38,20 +38,20 @@ function addPath(chart, data) {
 		.attr("fill", (d, i, nodes) => colors[i])
 		// The SVG d attribute defines a path to be drawn. 
 		.attr("d", area)
-		.on('mouseout', hide)
-		.on('mouseover', show);
+		.on('mouseover', show)
+		.on('mouseout', hide);
 }
 
 function show(d, i) {
-	d3.select(this).transition()
-		.duration('50')
-		.attr('opacity', 1);
+	d3.select(this).attr('opacity', 0.5);
+	var div = d3.select("#tooltip")
+	div.style('opacity', 1);
 }
 
 function hide(d, i) {
-	d3.select(this).transition()
-		.duration('50')
-		.attr('opacity', 0.5);
+	d3.select(this).attr('opacity', 1);
+	var div = d3.select("#tooltip")
+	div.style('opacity', 0);
 }
 
 // Take the dates of each data item (domain) and translate to scaled values (range)
