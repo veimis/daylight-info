@@ -24,20 +24,34 @@ function getScaleXwithDates(dates) {
 function addPath(chart, data) {
 	const area = d3.area()
 		.curve(d3.curveStep)
-	// here d should be a data element defined in dataLoader.js
+		// here d should be a data element defined in dataLoader.js
 		.x((d, i) => scaleX(i))
 		.y0(d => scaleY(parseTime(d.rise)))
 		.y1(d => scaleY(parseTime(d.set)));
 
 	chart.selectAll("path")
-	// For each item in data array
+		// For each item in data array
 		.data(data) 
 		.enter()
-	// Add new path to the SVG
+		// Add new path to the SVG
 		.append("path") 
 		.attr("fill", (d, i, nodes) => colors[i])
-	// The SVG d attribute defines a path to be drawn. 
-		.attr("d", area);
+		// The SVG d attribute defines a path to be drawn. 
+		.attr("d", area)
+		.on('mouseout', hide)
+		.on('mouseover', show);
+}
+
+function show(d, i) {
+	d3.select(this).transition()
+		.duration('50')
+		.attr('opacity', 1);
+}
+
+function hide(d, i) {
+	d3.select(this).transition()
+		.duration('50')
+		.attr('opacity', 0.5);
 }
 
 // Take the dates of each data item (domain) and translate to scaled values (range)
