@@ -39,6 +39,7 @@ function addPath(chart, data) {
 		// The SVG d attribute defines a path to be drawn. 
 		.attr("d", area)
 		.on('mouseover', show)
+		.on('mousemove', updateCoordinates)
 		.on('mouseout', hide);
 }
 
@@ -46,6 +47,11 @@ function show(d, i) {
 	d3.select(this).attr('opacity', 0.5);
 	var div = d3.select("#tooltip")
 	div.style('opacity', 1);
+}
+
+function updateCoordinates(d, i) {
+	var div = d3.select("#tooltip");
+	div.html(d3.event.pageX + ", " + d3.event.pageY);
 }
 
 function hide(d, i) {
