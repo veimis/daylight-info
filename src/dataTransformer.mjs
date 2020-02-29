@@ -1,8 +1,8 @@
 // Daylight saving time start and end times
 const date = new Date();
 const currentYear = date.getFullYear();
-const start = new Date(`${currentYear}-03-30`);
-const end = new Date(`${currentYear}-10-26`);
+const start = new Date(`${currentYear}-03-28`);
+const end = new Date(`${currentYear}-10-24`);
 const hourInSeconds = 3600;
 
 export default function(data, dates) {
