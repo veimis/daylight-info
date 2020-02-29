@@ -11,14 +11,12 @@ export default function(dataUrl) {
 			const dates = rawData.dates;
 			const data = transform(rawData.values, dates);
 			const wakeUpTime = 25200; // 07:00
+			const sleepTime = 79200; // 22:00
 
-			const summer = d3.select('#summer');
-			const summerWakeUp = generateWakeUpData(data.summer, wakeUpTime);
-			render(summer, [data.summer, summerWakeUp], dates);
-
-			const winter = d3.select('#winter');
-			const winterWakeUp = generateWakeUpData(data.winter, wakeUpTime);
-			render(winter, [data.winter, winterWakeUp], dates);
+			const chart = d3.select('#chart');
+			const wakeUp = generateWakeUpData(data.winter, wakeUpTime);
+			const sleep = generateSleepData(rawData.values, sleepTime);
+			render(chart, [data.winter, data.summer, wakeUp, sleep], dates);
 		});
 }
 
@@ -26,5 +24,12 @@ function generateWakeUpData(data, wakeUpTime) {
 	return data.map(d => ({
 		rise: d.rise < wakeUpTime ? d.rise : wakeUpTime,
 		set: wakeUpTime
+	}));
+}
+
+function generateSleepData(data, sleepTime) {
+	return data.map(d => ({
+		rise: sleepTime,
+		set: d.set > sleepTime ? d.set : sleepTime
 	}));
 }
