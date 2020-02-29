@@ -50,8 +50,11 @@ function show(d, i) {
 }
 
 function updateCoordinates(d, i) {
-	var div = d3.select("#tooltip");
-	div.html(d3.event.pageX + ", " + d3.event.pageY);
+	const div = d3.select("#tooltip");
+	const coordinates = d3.mouse(chart);
+	const x = coordinates[0];
+	const y = coordinates[1];
+	div.html(x + ", " + y);
 }
 
 function hide(d, i) {
@@ -65,7 +68,7 @@ const scaleX = (d3.scaleLinear()
 	.domain([0, 364]) // One year
 	.range([margins.left, svgWidth - margins.right]));
 
-// Take minutes per year (domain) and translate to scaled values (range)
+// Take minutes per day (domain) and translate to scaled values (range)
 const scaleY = (d3.scaleLinear()
 	.domain([0, 24 * 60]) // from 0 to 24h * 60 min/h
 	.range([svgHeight - margins.bottom, margins.top]));
