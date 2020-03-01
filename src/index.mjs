@@ -11,7 +11,11 @@ export default function(dataUrl) {
 			const dates = rawData.dates;
 			const data = transform(rawData.values, dates);
 			const wakeUpTime = 25200; // 07:00
-			const sleepTime = 79200; // 22:00
+			const sleepTime = 72000; // 20:00
+			const getOfWorkTime = 61200; // 17:00
+
+			findDifferenceInLightMornings(dates, data.winter, data.summer, wakeUpTime);
+			findDifferenceInLightAfterWork(dates, data.winter, data.summer, getOfWorkTime);
 
 			const chart = d3.select('#chart');
 			const wakeUp = generateWakeUpData(data.winter, wakeUpTime);
@@ -32,4 +36,44 @@ function generateSleepData(data, sleepTime) {
 		rise: sleepTime,
 		set: d.set > sleepTime ? d.set : sleepTime
 	}));
+}
+
+function findDifferenceInLightMornings(dates, winter, summer, wakeUpTime){
+	const diff = dates.map((item, i) => {
+		if(winter[i].rise < wakeUpTime 
+			&& summer[i].rise > wakeUpTime) {
+			return {
+				date: item,
+				index: i
+			};
+		}
+		
+		return null;
+	})
+	.filter(item => item != null);
+
+	const count = diff.length;
+	d3.select('#lightMorningsInfo').html(
+		`Talviajassa valoisia aamuja olisi vuosittain ${count} enemmän, kuin kesäajassa, jos herätään 07:00 aamulla. (Aamuja jolloin talviajassa aurinko on noussut ennen 07:00, mutta kesäajassa ei)`
+	);
+}
+
+function findDifferenceInLightAfterWork(dates, winter, summer, getOfWorkTime) {
+	const diff = dates.map((item, i) => {
+		if(winter[i].set < getOfWorkTime
+			&& summer[i].set > getOfWorkTime){
+			return {
+				date: item,
+				index: i
+			}
+		}
+
+		return null;
+	})
+	.filter(item => item != null);
+	
+	const count = diff.length;
+	d3.select('#lightEveningsInfo').html(
+		`Kesäajassa valoisia "iltoja" olisi vuosittain ${count} enemmän, kuin talviajassa, jos töistä pääsee 17:00. (Iltoja, jolloin kesäajassa aurinko ei ole laskenut ennen 17:00, mutta talviajassa on)`
+	);
 }
