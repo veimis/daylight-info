@@ -3,7 +3,7 @@ import * as d3 from 'https://unpkg.com/d3?module'
 const svgWidth = 800;
 const svgHeight = 400
 const margins = {top: 30, right: 30, bottom: 20, left: 50};
-const colors = ["steelblue", "red"];
+const colors = ['steelblue', 'red'];
 
 export default function(chart, data, dates) {
 
@@ -13,6 +13,7 @@ export default function(chart, data, dates) {
 	addPath(chart, data);
 	addXaxis(chart, getScaleXwithDates(dates));
 	addYaxis(chart);
+	addLegends(chart);
 }
 
 function getScaleXwithDates(dates) {
@@ -29,15 +30,15 @@ function addPath(chart, data) {
 		.y0(d => scaleY(parseTime(d.rise)))
 		.y1(d => scaleY(parseTime(d.set)));
 
-	chart.selectAll("path")
+	chart.selectAll('path')
 		// For each item in data array
 		.data(data) 
 		.enter()
 		// Add new path to the SVG
-		.append("path") 
-		.attr("fill", (d, i, nodes) => colors[i])
+		.append('path') 
+		.attr('fill', (d, i, nodes) => colors[i])
 		// The SVG d attribute defines a path to be drawn. 
-		.attr("d", area)
+		.attr('d', area)
 		.on('mouseover', show)
 		.on('mousemove', updateCoordinates)
 		.on('mouseout', hide);
@@ -45,21 +46,21 @@ function addPath(chart, data) {
 
 function show(d, i) {
 	d3.select(this).attr('opacity', 0.5);
-	var div = d3.select("#tooltip")
+	var div = d3.select('#tooltip')
 	div.style('opacity', 1);
 }
 
 function updateCoordinates(d, i) {
-	const div = d3.select("#tooltip");
+	const div = d3.select('#tooltip');
 	const coordinates = d3.mouse(chart);
 	const x = coordinates[0];
 	const y = coordinates[1];
-	div.html(x + ", " + y);
+	div.html(x + ', ' + y);
 }
 
 function hide(d, i) {
 	d3.select(this).attr('opacity', 1);
-	var div = d3.select("#tooltip")
+	var div = d3.select('#tooltip')
 	div.style('opacity', 0);
 }
 
@@ -79,18 +80,18 @@ function parseTime(time) {
 }
 
 function addXaxis(chart, scaleXdates) {
-	chart.append("g")
-		.attr("transform", `translate(0, ${svgHeight - margins.bottom})`)
+	chart.append('g')
+		.attr('transform', `translate(0, ${svgHeight - margins.bottom})`)
 		.call(d3.axisBottom(scaleXdates).ticks(12))
-		.call(g => g.select(".domain").remove());
+		.call(g => g.select('.domain').remove());
 }
 
 function addYaxis(chart) {
-	chart.append("g")
-		.attr("transform", `translate(${margins.left - 10}, 0)`)	
+	chart.append('g')
+		.attr('transform', `translate(${margins.left - 10}, 0)`)	
 		.call(d3.axisLeft(scaleY)
 			.tickFormat(formatTime))
-		.call(g => g.select(".domain").remove());
+		.call(g => g.select('.domain').remove());
 }
 
 function formatTime(d) {
@@ -101,3 +102,16 @@ function formatTime(d) {
 
 	return `${hours}:${minutes}`;
 };
+
+function addLegends(chart) {
+	const baseX = 680;
+	const baseY = 50;
+	const fontSize = '15px';
+	const radius = 6;
+	const alignment  = 'middle';
+
+	chart.append('circle').attr('cx', baseX).attr('cy',baseY).attr('r', radius).style('fill', colors[0]);
+	chart.append('circle').attr('cx', baseX).attr('cy',baseY + 30).attr('r', radius).style('fill', colors[1]);
+	chart.append('text').attr('x', baseX + 20).attr('y', baseY).text('talviaika').style('font-size', fontSize).attr('alignment-baseline', alignment);
+	chart.append('text').attr('x', baseX + 20).attr('y', baseY + 30).text('kesäaika').style('font-size', fontSize).attr('alignment-baseline', alignment);
+}
