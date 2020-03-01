@@ -21,6 +21,8 @@ export default function(dataUrl) {
 			const wakeUp = generateWakeUpData(data.winter, wakeUpTime);
 			const sleep = generateSleepData(rawData.values, sleepTime);
 			render(chart, [data.winter, data.summer, wakeUp, sleep], dates);
+
+			setSource(dataUrl);
 		});
 }
 
@@ -76,4 +78,9 @@ function findDifferenceInLightAfterWork(dates, winter, summer, getOfWorkTime) {
 	d3.select('#lightEveningsInfo').html(
 		`Kesäajassa valoisia "iltoja" olisi vuosittain ${count} enemmän, kuin talviajassa, jos töistä pääsee 17:00. (Iltoja, jolloin kesäajassa aurinko ei ole laskenut ennen 17:00, mutta talviajassa on)`
 	);
+}
+
+function setSource(url) {
+	let div = d3.select('#source');
+	div.html(`<a href="${url}">lähde</a>`);
 }
