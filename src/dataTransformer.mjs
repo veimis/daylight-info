@@ -1,9 +1,26 @@
 // Daylight saving time start and end times
 const date = new Date();
 const currentYear = date.getFullYear();
-const start = new Date(`${currentYear}-03-28`);
-const end = new Date(`${currentYear}-10-24`);
+const startOfDaylightSavingTime = getStartOfDaylightSavingTime();
+const endOfDaylightSavingTime = getEndOfDaylightSavingTime();
 const hourInSeconds = 3600;
+
+function getStartOfDaylightSavingTime()
+{
+	const lastOfMarch = new Date(`${currentYear}-03-31 00:00:00`);
+	return getLastSunday(lastOfMarch);
+}
+
+function getEndOfDaylightSavingTime() {
+	const lastOfOctober = new Date(`${currentYear}-10-31 00:00:00`);
+	return getLastSunday(lastOfOctober);
+}
+
+function getLastSunday(lastOfMonth) {
+	const dayOfTheWeek = lastOfMonth.getDay();
+	lastOfMonth.setDate(31 - dayOfTheWeek);
+	return lastOfMonth;
+}
 
 export default function(data, dates) {
 	return {
@@ -43,5 +60,5 @@ function addOneHour(time) {
 }
 
 function isDaylightSavingDate(i, dates) {
-	return dates[i] > start && dates[i] < end;
+	return dates[i] >= startOfDaylightSavingTime && dates[i] < endOfDaylightSavingTime;
 }
