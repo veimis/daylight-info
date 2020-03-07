@@ -19,9 +19,11 @@ function fetchPlaces() {
 
 	xhr.onload = () => {
 		const places = parseData(xhr.response);
-		const results = createResultList(places);
 
-		updateResultsList(results);
+		const placesElement = document.getElementById('places');
+		const results = createResultList(places, placesElement);
+
+		updateResultsList(results, placesElement);
 	}
 
 	xhr.onerror = () => {
@@ -67,7 +69,7 @@ function getPlaces(tableRows) {
 	return places;
 }
 
-function createResultList(places) {
+function createResultList(places, placesElement) {
 	let list = document.createElement('ul');
 
 	// <li><a href="place.url">place.name</a></li>
@@ -75,7 +77,10 @@ function createResultList(places) {
 		let listItem = document.createElement('li');
 		let link = document.createElement('a');
 		link.href = place.url;
-		link.onclick = () => { refresh(place.url); return false; }
+		link.onclick = () => { 
+			placesElement.style.display = 'none';
+			refresh(place.url); 
+			return false; }
 		link.appendChild(document.createTextNode(place.name));
 		listItem.appendChild(link);
 		list.appendChild(listItem);
@@ -84,12 +89,11 @@ function createResultList(places) {
 	return list;
 }
 
-function updateResultsList(results) {
-	const listElement = document.getElementById('places');
-
+function updateResultsList(results, listElement) {
 	while(listElement.firstChild) {
 		listElement.removeChild(listElement.firstChild);
 	}
 
 	listElement.appendChild(results);
+	listElement.style.display = 'block';
 }
