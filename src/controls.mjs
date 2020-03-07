@@ -1,8 +1,8 @@
 import refresh from './index.mjs'
 
 // Bind form onsubmit event when hmtl is ready
-document.addEventListener("DOMContentLoaded", function(event) {
-	document.getElementById("placesForm").onsubmit = fetchPlaces;
+document.addEventListener('DOMContentLoaded', function(event) {
+	document.getElementById('placesForm').onsubmit = fetchPlaces;
 });
 
 // http://moisio.fi/aurinkokalenteri.php?/mode=1&amp;zc=37&amp;paikka=Tampere&amp;latdeg=61.5&amp;long=23.75&amp;dy=4&amp;mn=8&amp;yr=2019&amp;kk=12
@@ -19,11 +19,11 @@ function fetchPlaces() {
 
 	xhr.onload = () => {
 		const places = parseData(xhr.response);
-
 		const placesElement = document.getElementById('places');
 		const results = createResultList(places, placesElement);
 
 		updateResultsList(results, placesElement);
+		showPlaces();
 	}
 
 	xhr.onerror = () => {
@@ -78,8 +78,8 @@ function createResultList(places, placesElement) {
 		let link = document.createElement('a');
 		link.href = place.url;
 		link.onclick = () => { 
-			placesElement.style.display = 'none';
 			refresh(place.url); 
+			showGraph();
 			return false; }
 		link.appendChild(document.createTextNode(place.name));
 		listItem.appendChild(link);
@@ -89,11 +89,26 @@ function createResultList(places, placesElement) {
 	return list;
 }
 
-function updateResultsList(results, listElement) {
-	while(listElement.firstChild) {
-		listElement.removeChild(listElement.firstChild);
+function updateResultsList(results, placesElement) {
+	while(placesElement.firstChild) {
+		placesElement.removeChild(placesElement.firstChild);
 	}
 
-	listElement.appendChild(results);
-	listElement.style.display = 'block';
+	placesElement.appendChild(results);
+}
+
+function showPlaces() {
+	const places = document.getElementById('places');
+	places.style.display = 'block';
+
+	const data = document.getElementById('data');
+	data.style.display = 'none';
+}
+
+function showGraph() {
+	const places = document.getElementById('places');
+	places.style.display = 'none';
+
+	const data = document.getElementById('data');
+	data.style.display = 'block';
 }
