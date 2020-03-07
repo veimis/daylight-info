@@ -7,8 +7,7 @@ const colors = ['steelblue', 'red'];
 
 export default function(chart, data, dates) {
 
-	chart = chart.attr('width', svgWidth)
-		.attr('height', svgHeight);
+	chart = chart.attr('viewBox', '0 0 800 400');
 
 	addPath(chart, data);
 	addXaxis(chart, getScaleXwithDates(dates));
