@@ -42,7 +42,7 @@ function findDifferenceInLightMornings(dates, winter, summer, wakeUpTime){
 		`Talviajassa valoisia aamuja olisi vuosittain ${count} enemmän, kuin kesäajassa, jos herätään 07:00 aamulla. (Aamuja jolloin talviajassa aurinko on noussut ennen 07:00, mutta kesäajassa ei)`
 	);
 
-	return diff.map((item, i) => item === null ? {rise: 0, set: 0} : item);
+	return diff.map((item, i) => item === null ? {rise: wakeUpTime, set: wakeUpTime - 100} : item);
 }
 
 function findDifferenceInLightAfterWork(dates, winter, summer, getOfWorkTime) {
@@ -63,7 +63,7 @@ function findDifferenceInLightAfterWork(dates, winter, summer, getOfWorkTime) {
 		`Kesäajassa valoisia "iltoja" olisi vuosittain ${count} enemmän, kuin talviajassa, jos töistä pääsee 17:00. (Iltoja, jolloin kesäajassa aurinko ei ole laskenut ennen 17:00, mutta talviajassa on)`
 	);
 
-	return diff.map((item, i) => item === null ? {rise: 0, set: 0} : item);
+	return diff.map((item, i) => item === null ? {rise: getOfWorkTime, set: getOfWorkTime + 100} : item);
 }
 
 function setSource(url) {
