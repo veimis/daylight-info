@@ -3,7 +3,7 @@ import * as d3 from 'https://unpkg.com/d3?module'
 const svgWidth = 800;
 const svgHeight = 400
 const margins = {top: 0, right: 0, bottom: 20, left: 50};
-const colors = ['steelblue', 'red'];
+const colors = ['steelblue', 'red', 'black', 'black'];
 
 export default function(chart, data, dates) {
 
@@ -32,6 +32,7 @@ function addPath(chart, data) {
 	chart.selectAll('path')
 		// For each item in data array
 		.data(data) 
+		.attr('d', area)
 		.enter()
 		// Add new path to the SVG
 		.append('path') 

@@ -1,8 +1,15 @@
 import refresh from './index.mjs'
+import {
+	ELEMENT_ID_PLACESFORM,
+	ELEMENT_ID_PLACES,
+	ELEMENT_ID_PLACEINPUT,
+	ELEMENT_ID_DATA,
+	TAG_NAME_TABLE
+} from './constants.mjs'
 
 // Bind form onsubmit event when hmtl is ready
 document.addEventListener('DOMContentLoaded', function(event) {
-	document.getElementById('placesForm').onsubmit = fetchPlaces;
+	document.getElementById(ELEMENT_ID_PLACESFORM).onsubmit = fetchPlaces;
 });
 
 // http://moisio.fi/aurinkokalenteri.php?/mode=1&amp;zc=37&amp;paikka=Tampere&amp;latdeg=61.5&amp;long=23.75&amp;dy=4&amp;mn=8&amp;yr=2019&amp;kk=12
@@ -19,7 +26,7 @@ function fetchPlaces() {
 
 	xhr.onload = () => {
 		const places = parseData(xhr.response);
-		const placesElement = document.getElementById('places');
+		const placesElement = document.getElementById(ELEMENT_ID_PLACES);
 		const results = createResultList(places, placesElement);
 
 		updateResultsList(results, placesElement);
@@ -33,7 +40,7 @@ function fetchPlaces() {
 }
 
 function getQuery() {
-	const place = document.getElementById('place').value;
+	const place = document.getElementById(ELEMENT_ID_PLACEINPUT).value;
 	const date = new Date();
 	const day = 1;
 	const month = 1;
@@ -45,7 +52,7 @@ function getQuery() {
 function parseData(data) {
 	// Type HTMLCollection is converted to an array with [...HTMLCollection]
 
-	const tables = data.body.getElementsByTagName('table');
+	const tables = data.body.getElementsByTagName(TAG_NAME_TABLE);
 
 	const tableRows = [...tables[2].tBodies[0].children]; 
 	tableRows.shift(); // Remove header row
@@ -98,17 +105,17 @@ function updateResultsList(results, placesElement) {
 }
 
 function showPlaces() {
-	const places = document.getElementById('places');
+	const places = document.getElementById(ELEMENT_ID_PLACES);
 	places.style.display = 'block';
 
-	const data = document.getElementById('data');
+	const data = document.getElementById(ELEMENT_ID_DATA);
 	data.style.display = 'none';
 }
 
 function showGraph() {
-	const places = document.getElementById('places');
+	const places = document.getElementById(ELEMENT_ID_PLACES);
 	places.style.display = 'none';
 
-	const data = document.getElementById('data');
+	const data = document.getElementById(ELEMENT_ID_DATA);
 	data.style.display = 'block';
 }
