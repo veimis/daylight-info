@@ -35,7 +35,21 @@
 			<div id="data">
 				<div class="row">
 					<div class="col">
-						<h1>Valoisa-aika</h1>
+						<h2>Valoisa-aika</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<label for="wakeup">Heräämisaika:</label>
+						<input type="time" id="wakeup" name="wakeup" value="07:00">
+					</div>
+					<div class="col">
+						<label for="getoffwork">Työpäivä päättyy:</label>
+						<input type="time" id="getoffwork" name="getoffwork" value="17:00">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
 						<svg id="chart" style="border: 1px solid black"></svg>
 						<div id="source"></div>
 					</div>
