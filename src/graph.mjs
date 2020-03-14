@@ -9,7 +9,7 @@ export default function(chart, data, dates) {
 
 	chart = chart.attr('viewBox', '0 0 800 400');
 
-	addPath(chart, data);
+	addPaths(chart, data);
 	addXaxis(chart, getScaleXwithDates(dates));
 	addYaxis(chart);
 	addLegends(chart);
@@ -21,13 +21,8 @@ function getScaleXwithDates(dates) {
 		.range([margins.left, svgWidth - margins.right]);
 }
 
-function addPath(chart, data) {
-	const area = d3.area()
-		.curve(d3.curveStep)
-		// here d should be a data element defined in dataLoader.js
-		.x((d, i) => scaleX(i))
-		.y0(d => scaleY(parseTime(d.rise)))
-		.y1(d => scaleY(parseTime(d.set)));
+export function addPaths(chart, data) {
+	const area = getGraphArea();
 
 	chart.selectAll('path')
 		// For each item in data array
@@ -39,7 +34,17 @@ function addPath(chart, data) {
 		.attr('fill', (d, i, nodes) => colors[i])
 		.attr('opacity', (d, i, nodes) => i == 0 ? 1 : 0.5)
 		// The SVG d attribute defines a path to be drawn. 
-		.attr('d', area);
+		.attr('d', area)
+		.exit().remove();
+}
+
+function getGraphArea() {
+	return d3.area()
+		.curve(d3.curveStep)
+		// here d should be a data element defined in dataLoader.js
+		.x((d, i) => scaleX(i))
+		.y0(d => scaleY(parseTime(d.rise)))
+		.y1(d => scaleY(parseTime(d.set)));
 }
 
 // Take the dates of each data item (domain) and translate to scaled values (range)

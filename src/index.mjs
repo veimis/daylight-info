@@ -28,7 +28,7 @@ export default function(dataUrl) {
 		});
 }
 
-function findDifferenceInLightMornings(dates, winter, summer){
+export function findDifferenceInLightMornings(dates, winter, summer){
 	const time = document.getElementById(ELEMENT_ID_WAKEUP).value;
 	const wakeUpTime = toSeconds(time);
 
@@ -52,7 +52,7 @@ function findDifferenceInLightMornings(dates, winter, summer){
 	return diff.map((item, i) => item === null ? {rise: wakeUpTime, set: wakeUpTime - 100} : item);
 }
 
-function findDifferenceInLightAfterWork(dates, winter, summer) {
+export function findDifferenceInLightAfterWork(dates, winter, summer) {
 	const time = document.getElementById(ELEMENT_ID_GETOFFWORK).value;
 	const getOfWorkTime = toSeconds(time);
 	

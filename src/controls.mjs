@@ -1,16 +1,42 @@
-import refresh from './index.mjs'
+import { 
+	default as refresh,
+	findDifferenceInLightMornings,
+	findDifferenceInLightAfterWork 
+} from './index.mjs';
+import { addPaths } from './graph.mjs'
 import {
 	ELEMENT_ID_PLACESFORM,
 	ELEMENT_ID_PLACES,
 	ELEMENT_ID_PLACEINPUT,
 	ELEMENT_ID_DATA,
-	TAG_NAME_TABLE
+	ELEMENT_ID_WAKEUP,
+	ELEMENT_ID_GETOFFWORK,
+	TAG_NAME_TABLE,
+	ELEMENT_ID_CHART
 } from './constants.mjs'
 
 // Bind form onsubmit event when hmtl is ready
 document.addEventListener('DOMContentLoaded', function(event) {
 	document.getElementById(ELEMENT_ID_PLACESFORM).onsubmit = fetchPlaces;
+	document.getElementById(ELEMENT_ID_WAKEUP).onchange = render;
+	document.getElementById(ELEMENT_ID_GETOFFWORK).onchange = render;
 });
+
+function render() {
+	const chart = d3.select(`#${ELEMENT_ID_CHART}`);
+	
+	// Get winter and summer data
+	const winter = chart.select('path#winter').data()[0];
+	const summer = chart.select('path#summer').data()[0];
+
+	// Calculate diff
+	const dates = Array.from({length: 365}, (v, i) => i);
+	const morningDiff = findDifferenceInLightMornings(dates, winter, summer);
+	const eveningDiff = findDifferenceInLightAfterWork(dates, winter, summer);
+
+	// Refresh graph
+	addPaths(chart, [winter, summer, morningDiff, eveningDiff]);
+}
 
 // http://moisio.fi/aurinkokalenteri.php?/mode=1&amp;zc=37&amp;paikka=Tampere&amp;latdeg=61.5&amp;long=23.75&amp;dy=4&amp;mn=8&amp;yr=2019&amp;kk=12
 const re = /^.*\/aurinkokalenteri\.php\?(.*)$/;
