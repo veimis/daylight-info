@@ -4,6 +4,7 @@ const svgWidth = 800;
 const svgHeight = 400
 const margins = {top: 0, right: 0, bottom: 20, left: 50};
 const colors = ['steelblue', 'red', 'black', 'black'];
+const ids = ['winter', 'summer', 'morning', 'evening'];
 
 export default function(chart, data, dates) {
 
@@ -31,6 +32,7 @@ export function addPaths(chart, data) {
 		.enter()
 		// Add new path to the SVG
 		.append('path') 
+		.attr('id', (d, i) => ids[i])
 		.attr('fill', (d, i, nodes) => colors[i])
 		.attr('opacity', (d, i, nodes) => i == 0 ? 1 : 0.5)
 		// The SVG d attribute defines a path to be drawn. 
