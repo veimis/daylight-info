@@ -45,8 +45,7 @@ function fetchPlaces() {
 	event && event.preventDefault();
 
 	const xhr = new XMLHttpRequest();
-	xhr.open('GET', 'locations.html');
-	//xhr.open('GET', getQuery());
+	xhr.open('GET', getQuery());
 	xhr.responseType = 'document';
 	xhr.send();
 
