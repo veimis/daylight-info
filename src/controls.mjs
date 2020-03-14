@@ -111,6 +111,7 @@ function createResultList(places, placesElement) {
 		let link = document.createElement('a');
 		link.href = place.url;
 		link.onclick = () => { 
+			updateSearchField(place.name);
 			refresh(place.url); 
 			showGraph();
 			return false; }
@@ -120,6 +121,12 @@ function createResultList(places, placesElement) {
 	});
 
 	return list;
+}
+
+function updateSearchField(text) {
+	const searchField = document.getElementById(ELEMENT_ID_PLACEINPUT);
+	searchField.value = text;
+	console.log(searchField);
 }
 
 function updateResultsList(results, placesElement) {
