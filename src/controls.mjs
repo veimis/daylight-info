@@ -48,14 +48,19 @@ function fetchPlaces() {
 	const xhr = new XMLHttpRequest();
 	xhr.open('GET', getQuery());
 	xhr.responseType = 'document';
-	xhr.send();
 
 	xhr.onload = () => {
 		const places = parseData(xhr.response);
 		const placesElement = document.getElementById(ELEMENT_ID_PLACES);
-		const results = createResultList(places, placesElement);
 
-		updateResultsList(results, placesElement);
+		if(places.length > 0) {
+			const results = createResultList(places, placesElement);
+			updateResultsList(results, placesElement);
+		}
+		else {
+			showNoMatchesInfo(placesElement);
+		}
+
 		showPlaces();
 	}
 
@@ -63,6 +68,8 @@ function fetchPlaces() {
 		console.log(xhr);
 		console.log('Failed to fetch places');
 	}
+	
+	xhr.send();
 }
 
 function getQuery() {
@@ -79,11 +86,14 @@ function parseData(data) {
 	// Type HTMLCollection is converted to an array with [...HTMLCollection]
 
 	const tables = data.body.getElementsByTagName(TAG_NAME_TABLE);
+	if(tables && tables[2] && tables[2].tBodies) {
+		const tableRows = [...tables[2].tBodies[0].children]; 
+		tableRows.shift(); // Remove header row
 
-	const tableRows = [...tables[2].tBodies[0].children]; 
-	tableRows.shift(); // Remove header row
+		return getPlaces(tableRows);
+	}
 
-	return getPlaces(tableRows);
+	return [];
 }
 
 function getPlaces(tableRows) {
@@ -151,4 +161,15 @@ function showGraph() {
 
 	const data = document.getElementById(ELEMENT_ID_DATA);
 	data.style.display = 'block';
+}
+
+function showNoMatchesInfo(placesElement) {
+	while(placesElement.firstChild) {
+		placesElement.removeChild(placesElement.firstChild);
+	}
+
+	const info = document.createElement('span');
+	info.className = 'info';
+	info.appendChild(document.createTextNode("Haukusanalla ei löytynyt tietoja."));
+	placesElement.appendChild(info);
 }
