@@ -7,7 +7,8 @@ import {
 	ELEMENT_ID_WAKEUP,
 	ELEMENT_ID_GETOFFWORK,
 	ELEMENT_ID_EVENINGINFO,
-	ELEMENT_ID_MORNINGINFO
+	ELEMENT_ID_MORNINGINFO,
+	ELEMENT_ID_DATA_SOURCE
 } from './constants.mjs'
 
 export default function(dataUrl) {
@@ -77,8 +78,12 @@ export function findDifferenceInLightAfterWork(dates, winter, summer) {
 }
 
 function setSource(url) {
-	let div = d3.select('#source');
-	div.html(`<a href="${url}">tietolähde</a>`);
+	let div = d3.select(`#${ELEMENT_ID_DATA_SOURCE}`);
+
+	// Strip /data from the beginning of string as its used by the nginx web server
+	// to reroute to moisio.fi
+	// i.e. /data/taivas/... -> http.moisio.fi/taivas/...
+	div.html(`<a href="http://moisio.fi${url.substring(5)}">tietolähde</a>`);
 }
 
 function toSeconds(time) {

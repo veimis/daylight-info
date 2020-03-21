@@ -8,4 +8,5 @@ export const ELEMENT_ID_PLACES = 'places';
 export const ELEMENT_ID_PLACEINPUT = 'placeInput';
 export const ELEMENT_ID_DATA = 'data';
 export const TAG_NAME_TABLE = 'table';
+export const ELEMENT_ID_DATA_SOURCE = 'source';
 
