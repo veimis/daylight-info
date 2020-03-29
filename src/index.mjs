@@ -9,7 +9,9 @@ import {
 	ELEMENT_ID_EVENINGINFO,
 	ELEMENT_ID_MORNINGINFO,
 	ELEMENT_ID_DATA_SOURCE,
-	DAY_AS_SECONDS
+	ELEMENT_ID_PLACES,
+	ELEMENT_ID_DATA,
+	MAX_TIME_VALUE
 } from './constants.mjs'
 
 export default function(dataUrl) {
@@ -27,6 +29,7 @@ export default function(dataUrl) {
 			render(chart, [data.winter, data.summer, morningDiff, eveningDiff], dates);
 
 			setSource(dataUrl);
+			showGraph();
 		});
 }
 
@@ -63,7 +66,7 @@ export function findDifferenceInLightAfterWork(dates, winter, summer) {
 			&& summer[i].set > getOfWorkTime){
 			return {
 				rise: getOfWorkTime,
-				set: DAY_AS_SECONDS
+				set: MAX_TIME_VALUE
 			}
 		}
 
@@ -86,3 +89,12 @@ function setSource(url) {
 	// i.e. /data/taivas/... -> http.moisio.fi/taivas/...
 	div.html(`<a href="http://moisio.fi${url.substring(5)}">tietolähde</a>`);
 }
+
+function showGraph() {
+	const places = document.getElementById(ELEMENT_ID_PLACES);
+	places.style.display = 'none';
+
+	const data = document.getElementById(ELEMENT_ID_DATA);
+	data.style.display = 'block';
+}
+

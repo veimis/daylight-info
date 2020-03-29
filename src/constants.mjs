@@ -9,5 +9,5 @@ export const ELEMENT_ID_PLACEINPUT = 'placeInput';
 export const ELEMENT_ID_DATA = 'data';
 export const TAG_NAME_TABLE = 'table';
 export const ELEMENT_ID_DATA_SOURCE = 'source';
-export const DAY_AS_SECONDS = 24 * 60 * 60;
+export const MAX_TIME_VALUE = 24 * 60 * 60; // Full day as seconds
 

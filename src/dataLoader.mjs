@@ -1,5 +1,5 @@
 import * as d3 from 'https://unpkg.com/d3-time-format?module'
-import { DAY_AS_SECONDS } from './constants.mjs'
+import { MAX_TIME_VALUE } from './constants.mjs'
 
 // 22.5.2020 - 2:59 - 23:32 - 1:44
 // match = ['23.4.2019 - 5:40 - 21:09', '23.4.2019', '5:40', '21:09']
@@ -71,7 +71,7 @@ function noData(time) {
 
 // During polar night the sun does not rise, during polar day the sun does not set
 function getPolarNightOrDayValue(isPolarNight) {
-	return isPolarNight ? 0 : DAY_AS_SECONDS;
+	return isPolarNight ? 0 : MAX_TIME_VALUE;
 }
 
 export function toSeconds(time) {

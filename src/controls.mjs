@@ -123,7 +123,6 @@ function createResultList(places, placesElement) {
 		link.onclick = () => { 
 			updateSearchField(place.name);
 			refresh(place.url); 
-			showGraph();
 			return false; }
 		link.appendChild(document.createTextNode(place.name));
 		listItem.appendChild(link);
@@ -152,14 +151,6 @@ function showPlaces() {
 
 	const data = document.getElementById(ELEMENT_ID_DATA);
 	data.style.display = 'none';
-}
-
-function showGraph() {
-	const places = document.getElementById(ELEMENT_ID_PLACES);
-	places.style.display = 'none';
-
-	const data = document.getElementById(ELEMENT_ID_DATA);
-	data.style.display = 'block';
 }
 
 function showNoMatchesInfo(placesElement) {
