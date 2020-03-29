@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	document.getElementById(ELEMENT_ID_PLACESFORM).onsubmit = fetchPlaces;
 	document.getElementById(ELEMENT_ID_WAKEUP).onchange = render;
 	document.getElementById(ELEMENT_ID_GETOFFWORK).onchange = render;
+	document.getElementById("searchButton").disabled = false;
 });
 
 function render() {
