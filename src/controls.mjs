@@ -136,7 +136,6 @@ function createResultList(places, placesElement) {
 function updateSearchField(text) {
 	const searchField = document.getElementById(ELEMENT_ID_PLACEINPUT);
 	searchField.value = text;
-	console.log(searchField);
 }
 
 function updateResultsList(results, placesElement) {

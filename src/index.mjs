@@ -1,5 +1,5 @@
 import * as d3 from 'https://unpkg.com/d3-selection?module'
-import load from './dataLoader.mjs'
+import { default as load, toSeconds } from './dataLoader.mjs'
 import transform from './dataTransformer.mjs'
 import render from './graph.mjs'
 import {
@@ -8,7 +8,8 @@ import {
 	ELEMENT_ID_GETOFFWORK,
 	ELEMENT_ID_EVENINGINFO,
 	ELEMENT_ID_MORNINGINFO,
-	ELEMENT_ID_DATA_SOURCE
+	ELEMENT_ID_DATA_SOURCE,
+	DAY_AS_SECONDS
 } from './constants.mjs'
 
 export default function(dataUrl) {
@@ -62,7 +63,7 @@ export function findDifferenceInLightAfterWork(dates, winter, summer) {
 			&& summer[i].set > getOfWorkTime){
 			return {
 				rise: getOfWorkTime,
-				set: 24*60*60
+				set: DAY_AS_SECONDS
 			}
 		}
 
@@ -84,12 +85,4 @@ function setSource(url) {
 	// to reroute to moisio.fi
 	// i.e. /data/taivas/... -> http.moisio.fi/taivas/...
 	div.html(`<a href="http://moisio.fi${url.substring(5)}">tietolähde</a>`);
-}
-
-function toSeconds(time) {
-	const splitTime = time.split(":"); // "hh:mm" -> ["hh", "mm"]
-	const hours = parseInt(splitTime[0]);
-	const minutes = parseInt(splitTime[1]);
-
-	return hours * 60 * 60 + minutes * 60;
 }
