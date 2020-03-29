@@ -1,3 +1,5 @@
+import { MAX_TIME_VALUE } from './constants.mjs'
+
 // Daylight saving time start and end times
 const date = new Date();
 const currentYear = date.getFullYear();
@@ -40,11 +42,17 @@ function summerize(item, i) {
 	return item;
 }
 
+// During polar day removing one hour would make rise time negative,
+// set rise time to zero instead.
+// Also removing one hour from set time is inaccurate. Approximate actual value
+// by setting the sunset time to max value during polar day.
 function normalize(item, i) {
 	if(isDaylightSavingDate(i, this.dates)) {
+		const rise = removeOneHour(item.rise);
+
 		return {
-			rise: removeOneHour(item.rise),
-			set: removeOneHour(item.set)
+			rise: rise < 0 ? 0 : rise,
+			set: item.set === MAX_TIME_VALUE ? item.set : removeOneHour(item.set)
 		};
 	}
 

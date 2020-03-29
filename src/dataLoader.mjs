@@ -1,12 +1,14 @@
 import * as d3 from 'https://unpkg.com/d3-time-format?module'
 import { MAX_TIME_VALUE } from './constants.mjs'
 
+// Normal data
 // 22.5.2020 - 2:59 - 23:32 - 1:44
 // match = ['23.4.2019 - 5:40 - 21:09', '23.4.2019', '5:40', '21:09']
+// Polar day/night data
 // 6.6.2020 -   -   -   -   -   -
-// match = ['6.6.2020 - - - -', '6.6.2020', '-', '-'] # for polar days
-//const re = /(\d{1,2}\.\d{1,2}\.\d{4}) - (\d{1,2}:\d{1,2}|\s*-\s*) - (\d{1,2}:\d{1,2}|\s*-)/g;
+// match = ['6.6.2020 - - - -', '6.6.2020', '-', '-']
 const re = /(\d{1,2}\.\d{1,2}\.\d{4}) - (\d{1,2}:\d{1,2}|(?:&nbsp;){2}-(?:&nbsp;){2}) - (\d{1,2}:\d{1,2}\*?|(?:&nbsp;){2}-(?:&nbsp;){2})/g;
+
 const NO_DATA_SYMBOL = '&nbsp;&nbsp;-&nbsp;&nbsp;';
 const SUNSET_AFTER_MIDNIGHT_INDICATOR = '*';
 const currentYear = new Date().getFullYear();
